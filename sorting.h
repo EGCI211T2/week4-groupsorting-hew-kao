@@ -1,60 +1,56 @@
-#ifndefine SORTING_H
-#define SORTING_H
+#include <cstdio>
 
-#include <iomanip>
-/* function prototype*/
-
-
-void display(int a[],int n){
-
-    int i;
-
-    for(i=0;i<n;i++)
-        std::cout<<setw(3)<<a[i];
-
-	std::cout<<std::endl;
-  
+void display(int* a, int N) {
+  for (int i = 0; i < N; i++) {
+    printf("%d ", a[i]);
+  }
+  printf("\n");
 }
 
-void selectionSort(int data[], int length) 
-{ 
-	int i, j, m, mi; 
-	
-     display(data,length);
-     
-	
-} 
-
-
-
-void insertion(int a[],int n){
-
-
+void swap(int &a, int &b) {
+  int tmp = a;
+  a = b;
+  b = tmp;
 }
 
-void swap(int &a,int &b){
- int temp;
-  temp=a;
-  a=b;
-  b=temp;
-  
+void insertion_sort(int *a, int N) {
+  for (int i = 1; i < N; i++) {
+    for (int j = i; j > 0 && a[j-1] > a[j]; j--) {
+      swap(a[j-1], a[j]);
+    }
+  }
 }
 
-void bubbleSort(int a[],int n){
-
-int i,j;
-int sorted;
-// how may pair to compare?
-for(j=1;j<n;j++){
-
-
-	
-  display(a,n);
- }
-  
+int findminwoffset(int *a, int N, int startat) {
+  // for selection sort
+  int min = a[startat];
+  int k = startat;
+  for (int i = startat; i < N; i++) {
+    if (a[i] < min) {
+      min = a[i];
+      k = i;
+    }
+  }
+  return k;
 }
-#endif
+
+void selection_sort(int *a, int N) {
+  for (int i = 0; i < N - 1; i++) {
+    swap(a[i], a[findminwoffset(a, N, i)]);
+  }
+}
 
 
-
-
+void bubble_sort(int *a, int N) {
+  int swappedflag = 0;
+  for (int i = 0; i < N; i++) {
+    swappedflag = 0;
+    for (int j = 0; j < N-i-1; j++) {
+      if (a[j] > a[j+1]) {
+        swap(a[j], a[j+1]);
+        swappedflag = 1;
+      }
+    }
+    if (!swappedflag) {break;}
+  }
+}
